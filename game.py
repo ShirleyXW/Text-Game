@@ -1,9 +1,14 @@
 
+
+from sync_users_data import sync_user_info_in_file, load_user_info_from_file
+
 MAP_ROW_NUMBER = 5
 MAP_COLUMN_NUMBER = 5
 
 MAXIMUM_LEVEL = 3
 EXPERIENCE_FOR_LEVEL_UP = 10
+
+USER_INFORMATION_FILE = "user_info.json"
 
 def generate_map():
     game_map ={(row,column):'' for row in range(0,MAP_ROW_NUMBER) for column in range(0,MAP_COLUMN_NUMBER)}
@@ -20,12 +25,10 @@ def get_level_name(level):
         MAXIMUM_LEVEL: "Professors"
     }[level]
 
-def write_user_info_into_disk():
-
 
 def load_or_create_character():
 
-    users = load_user_from_file()
+    users = load_user_info_from_file()
 
     user_credential = get_user_credential()
     if user_exists():
@@ -33,8 +36,8 @@ def load_or_create_character():
     else:
         # TODO: create new user
         create_new_character()
-        # TODO: write into disk
 
+    sync_user_info_in_file()
 
 
 def character_has_leveled(character):
@@ -51,37 +54,42 @@ def game():
     character=load_or_create_character()
     game_map = generate_map()
     print_map_and_current_location(game_map, character)
+    current_question = None
 
     # Exit game in handle_user_action() when
     # 1. HP is zero 2. user types 'q' 3. Boss room is completed
     while True:
-        handle_user_action(game_map, character, input())
+        if not is_alive():
+            print("Sorry {}, your journey is over. Try next time.".format(character["user_name"]))
+            return
+
+        user_action = input().lower()
+        if user_action == "":
+            continue
+
+        # If character's status is in the class ,then check answer
+        if character["in_question"] is True:
+            handle_user_action_for_question(game_map, character, current_question, user_action)
+
+        if user_action in ['n', 's', 'w', 'e']:
+            move_character(game_map, character, user_action)
+        elif user_action == 'x':
+            # Start the game
+
+        elif user_action == 'i':
+            # Print the character information
+
+        elif user_action == 'm':
+            #Print the map and current location
+
+        elif user_action == 'q':
+            # Exit the game
+            print("Bye! {}".format(character["user_name"]))
+            return
+        else:
+            print("Invalid option, {}.".format(character["user_name"]))
 
 
-
-
-
-
-
-
-
-
-
-
-    # while not achieved_goal:
-    #     describe_current_location(board, character)
-    #     direction = get_user_choice()
-    #     valid_move = validate_move(board, character, direction)
-    #     if valid_move:
-    #         move_character(character)
-    #         describe_current_location(board, character)
-    #         there_is_a_challenge = check_for_challenges()
-    #         if there_is_a_challenge:
-    #             execute_challenge_protocol(character)
-    #         if character_has_leveled(character):
-    #             execute_glow_up_protocol(character)
-    #         achieved_goal = check_if_goal_attained(board, character)
-    #     else:
 
 def main():
     game()
