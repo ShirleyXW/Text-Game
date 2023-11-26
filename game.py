@@ -1,6 +1,6 @@
 
+import user
 
-from sync_users_data import sync_user_info_in_file, load_user_info_from_file
 
 MAP_ROW_NUMBER = 5
 MAP_COLUMN_NUMBER = 5
@@ -26,20 +26,6 @@ def get_level_name(level):
     }[level]
 
 
-def load_or_create_character():
-
-    users = load_user_info_from_file()
-
-    user_credential = get_user_credential()
-    if user_exists():
-        # TODO: return corespoinding user info
-    else:
-        # TODO: create new user
-        create_new_character()
-
-    sync_user_info_in_file()
-
-
 def character_has_leveled(character):
     return character["level"] < MAXIMUM_LEVEL and character["experience"] >= EXPERIENCE_FOR_LEVEL_UP
 
@@ -51,7 +37,7 @@ def execute_glow_up_protocol(character):
 
 
 def game():
-    character=load_or_create_character()
+    character= user.load_or_create_character()
     game_map = generate_map()
     print_map_and_current_location(game_map, character)
     current_question = None
