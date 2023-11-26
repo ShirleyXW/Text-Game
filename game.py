@@ -1,3 +1,4 @@
+import random
 
 import user
 
@@ -5,17 +6,52 @@ import user
 MAP_ROW_NUMBER = 5
 MAP_COLUMN_NUMBER = 5
 
+ROOM_TYPE_ENTRANCE = 1
+ROOM_TYPE_CLASS_ROOM = 2
+ROOM_TYPE_RELAX = 3
+ROOM_TYPE_BOSS_ROOM = 4
+
+
 MAXIMUM_LEVEL = 3
 EXPERIENCE_FOR_LEVEL_UP = 10
 
 USER_INFORMATION_FILE = "user_info.json"
 
+def subjects():
+    #TODO: implement
+    return "Math"
+
+def subject_grades(row, column):
+        if row <=2 and column <=2 :
+            return 2
+        elif row <= 3 and column <= 3 :
+            return 3
+        else:
+            return 4
+
+
 def generate_map():
-    game_map ={(row,column):'' for row in range(0,MAP_ROW_NUMBER) for column in range(0,MAP_COLUMN_NUMBER)}
-    room_name=list()
-    for _ in range(5):
-        pass
+    game_map ={
+        (row,column):{
+            "type": ROOM_TYPE_CLASS_ROOM,
+            "subject": subjects(), # more subjects
+            "subject_grade": subject_grades(row,column), # grades:2 to 4
+            "completed": False
+        }
+        for row in range(0,MAP_ROW_NUMBER) for column in range(0,MAP_COLUMN_NUMBER)
+    }
+    game_map[(0,0)] = {
+        "type": ROOM_TYPE_ENTRANCE
+    }
+    game_map[(2, 2)] = {
+        "type": ROOM_TYPE_RELAX,
+        "first_enter": True
+    }
+    game_map[(4, 4)] = {
+        "type": ROOM_TYPE_BOSS_ROOM
+    }
     return game_map
+
 
 
 def get_level_name(level):
