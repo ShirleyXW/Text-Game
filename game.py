@@ -11,23 +11,29 @@ ROOM_TYPE_CLASS_ROOM = 2
 ROOM_TYPE_RELAX = 3
 ROOM_TYPE_BOSS_ROOM = 4
 
+SCIENCE = "Science"
+GEOGRAPHY = "Geography"
+COMPUTER_SCIENCE = "Computer Science"
+SUBJECTS = (SCIENCE, GEOGRAPHY, COMPUTER_SCIENCE)
 
 MAXIMUM_LEVEL = 3
 EXPERIENCE_FOR_LEVEL_UP = 10
 
 USER_INFORMATION_FILE = "user_info.json"
 
+
 def subjects():
-    #TODO: implement
-    return "Math"
+    subject = SUBJECTS[random.randint(0,2)]
+    return subject
+
 
 def subject_grades(row, column):
-        if row <=2 and column <=2 :
-            return 2
-        elif row <= 3 and column <= 3 :
-            return 3
-        else:
-            return 4
+    if row <=2 and column <=2 :
+        return 2
+    elif row <= 3 and column <= 3 :
+        return 3
+    else:
+        return 4
 
 
 def generate_map():
