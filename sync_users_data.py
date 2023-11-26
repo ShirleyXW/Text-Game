@@ -2,6 +2,7 @@ import json
 
 USER_INFORMATION_FILE = "user_info.json"
 
+
 def sync_user_info_in_file(character):
     users = load_user_info_from_file()
     #
@@ -39,7 +40,8 @@ if __name__ == "__main__":
             "in_class": False,
             "level": 3,
             "experience": 0,
-            "health": 5
+            "health": 5,
+            "intelligence": 3
         },
         {
             "user_name": "Hugo_stupid",
@@ -47,7 +49,8 @@ if __name__ == "__main__":
             "in_class": False,
             "level": 3,
             "experience": 0,
-            "health": 5
+            "health": 5,
+            "intelligence": 3
         }
 
     ])
