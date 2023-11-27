@@ -8,6 +8,8 @@ ROOM_TYPE_CLASS_ROOM = 2
 ROOM_TYPE_RELAX = 3
 ROOM_TYPE_BOSS_ROOM = 4
 
+BOSS_LOCATION = (MAP_ROW_NUMBER - 1, MAP_COLUMN_NUMBER - 1)
+
 
 def get_room_type(game_map, character):
     location = character["location"]
