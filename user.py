@@ -38,6 +38,6 @@ def load_or_create_character():
     character = get_user_from_user_list(users_info, user_name)
     if character is None:
         character = create_new_character(user_name)
-        sync_users_data.sync_user_info_in_file(character)
+        sync_users_data.sync_user_info_to_file(character)
 
     return character
