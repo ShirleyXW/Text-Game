@@ -1,12 +1,50 @@
-import random
 
 import user
+import map
+import subjects
+import sync_users_data
 
 
 MAXIMUM_LEVEL = 3
 EXPERIENCE_FOR_LEVEL_UP = 10
 
 USER_INFORMATION_FILE = "user_info.json"
+
+
+def is_alive():
+    return True
+
+
+def get_target_location(character, user_action):
+    if user_action == "n":
+        return character["location"][0] - 1, character["location"][1]
+    elif user_action == "s":
+        return character["location"][0] + 1, character["location"][1]
+    elif user_action == "e":
+        return character["location"][0], character["location"][1] + 1
+    elif user_action == "w":
+        return character["location"][0], character["location"][1] - 1
+    else:
+        raise Exception("Invalid action")
+
+
+def move_character(game_map, character, user_action):
+    target_location = get_target_location(character, user_action)
+    character_level = character["level"]
+    if target_location not in game_map:
+        print("You can't go that way")
+        return
+
+    if target_location == map.BOSS_LOCATION and character_level < MAXIMUM_LEVEL:
+        print("{} can't go there. Level up to 3, then give a try.".format(character["user_name"]))
+        return
+
+    character["location"] = target_location
+    map.print_map_and_current_location(game_map,character)
+
+
+def handle_user_action_for_question(game_map, character, current_question, user_action):
+    pass
 
 
 def get_level_name(level):
@@ -28,9 +66,9 @@ def execute_glow_up_protocol(character):
 
 
 def game():
-    character= user.load_or_create_character()
-    game_map = generate_map()
-    print_map_and_current_location(game_map, character)
+    character = user.load_or_create_character()
+    game_map = map.generate_map()
+    map.print_map_and_current_location(game_map, character)
     current_question = None
 
     # Exit game in handle_user_action() when
@@ -52,12 +90,15 @@ def game():
             move_character(game_map, character, user_action)
         elif user_action == 'x':
             # Start the game
+            pass
 
         elif user_action == 'i':
             # Print the character information
+            pass
 
         elif user_action == 'm':
-            #Print the map and current location
+            # Print the map and current location
+            pass
 
         elif user_action == 'q':
             # Exit the game
@@ -66,10 +107,12 @@ def game():
         else:
             print("Invalid option, {}.".format(character["user_name"]))
 
+        sync_users_data.sync_user_info_to_file(character)
 
 
 def main():
     game()
 
-if __name__ == "__manin__":
+
+if __name__ == "__main__":
     main()
