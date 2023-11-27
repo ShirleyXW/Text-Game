@@ -22,9 +22,24 @@ EXPERIENCE_FOR_LEVEL_UP = 10
 USER_INFORMATION_FILE = "user_info.json"
 
 
+def get_room_type(game_map,character):
+    location = character["location"]
+    if game_map[location]["type"] == ROOM_TYPE_CLASS_ROOM :
+        return ("You are now in Grade {} {} class. You can start the class (enter 'x') or walk away."
+                .format(game_map[location]["subject_grade"],game_map[location]["subject"][0]))
+    elif game_map[location]["type"] == ROOM_TYPE_ENTRANCE :
+        return "{}, you are standing in front of the school, try exploring!".format(character["user_name"])
+    elif game_map[location]["type"] == ROOM_TYPE_RELAX:
+        return "Alright,{}, in the central garden 🍀, you find a book, reading and relaxing.".format(character["user_name"])
+    elif game_map[location]["type"] == ROOM_TYPE_BOSS_ROOM:
+        return "!!! ATTENTION !!! {}, This is your final goal, fight for yourself!".format(character["user_name"])
+    else:
+        return ""
+
+
 def get_room_title_and_grade(game_map, row, column):
     if game_map[(row, column)]["type"] == ROOM_TYPE_CLASS_ROOM:
-        room_title = " {}{} ".format(game_map[(row, column)]["subject"][1], game_map[(row, column)]["subject_grade"])
+        room_title = "{} {} ".format(game_map[(row, column)]["subject"][1], game_map[(row, column)]["subject_grade"])
         return room_title
     elif game_map[(row, column)]["type"] == ROOM_TYPE_ENTRANCE:
         return  "\t🚪\t"
@@ -65,7 +80,7 @@ def print_map_and_current_location(game_map, character):
     # Draw map and contain character inside
     print_map(game_map,character)
     # Print details of current location
-    print("Welcome to {}, {}".format(game_map["type"],character["user_name"]))
+    print(get_room_type(game_map,character))
 
 
 
