@@ -1,9 +1,11 @@
 import json
+import os.path
+
 
 USER_INFORMATION_FILE = "user_info.json"
 
 
-def sync_user_info_in_file(character):
+def sync_user_info_to_file(character):
     users = load_user_info_from_file()
     #
     for user_index in range(len(users)):
@@ -21,8 +23,11 @@ def dump_user_info_into_file(users):
 
 
 def load_user_info_from_file():
+    if not os.path.isfile(USER_INFORMATION_FILE):
+        return []
+
     # with open()
-    with open(USER_INFORMATION_FILE) as file_object:
+    with open(USER_INFORMATION_FILE, "r") as file_object:
         users = json.load(file_object)
 
     # Convert location from list to tuple
@@ -57,7 +62,7 @@ if __name__ == "__main__":
 
     print(load_user_info_from_file())
 
-    sync_user_info_in_file(
+    sync_user_info_to_file(
         {
             "user_name": "Hugo",
             "location": (3, 3),
@@ -69,7 +74,7 @@ if __name__ == "__main__":
     )
     print(load_user_info_from_file())
 
-    sync_user_info_in_file({
+    sync_user_info_to_file({
         "user_name": "Hugo_2",
         "location": (4, 4),
         "in_class": False,
