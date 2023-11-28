@@ -1,14 +1,43 @@
+import random
 
 import user
 import map
 import subjects
 import sync_users_data
+import questions_bank
 
 
 MAXIMUM_LEVEL = 3
 EXPERIENCE_FOR_LEVEL_UP = 10
 
 USER_INFORMATION_FILE = "user_info.json"
+
+
+def get_question(game_map, character):
+    if game_map[character["location"]]["subject"] == subjects.SCIENCE:
+        question = questions_bank.NATURE_SCIENCE_QUESTIONS[random.randint(0,
+                                                                          len(questions_bank.NATURE_SCIENCE_QUESTIONS))]
+    elif game_map[character["location"]]["subject"] == subjects.GEOGRAPHY:
+        question = questions_bank.GEOGRAPHY_QUESTIONS[random.randint(0, len(questions_bank.GEOGRAPHY_QUESTIONS))]
+    elif game_map[character["location"]]["subject"] == subjects.COMPUTER_SCIENCE:
+        question = questions_bank.COMPUTER_QUESTIONS[random.randint(0, len(questions_bank.COMPUTER_QUESTIONS))]
+    else:
+        question = questions_bank.BOSS_QUESTIONS[0]
+
+    return question
+
+
+def start_class(game_map, character):
+    if game_map[character["location"]]["type"] != map.ROOM_TYPE_CLASS_ROOM:
+        print("{}, you can't start class here".format(character["user_name"]))
+    elif game_map[character["location"]]["type"] == map.ROOM_TYPE_CLASS_ROOM:
+        question = get_question(game_map, character)
+        # TODO: formatted question
+        return
+    elif game_map[character["location"]]["type"] == map.ROOM_TYPE_BOSS_ROOM:
+        # TODO: formatted question
+        return get_question(game_map, character)
+
 
 
 def is_alive():
@@ -90,7 +119,7 @@ def game():
             move_character(game_map, character, user_action)
         elif user_action == 'x':
             # Start the game
-            pass
+            current_question = start_class(game_map, character)
 
         elif user_action == 'i':
             # Print the character information
