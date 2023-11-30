@@ -16,15 +16,24 @@ USER_INFORMATION_FILE = "user_info.json"
 def get_question(game_map, character):
     if game_map[character["location"]]["subject"] == subjects.SCIENCE:
         question = questions_bank.NATURE_SCIENCE_QUESTIONS[random.randint(0,
-                                                                          len(questions_bank.NATURE_SCIENCE_QUESTIONS))]
+                                                                          len(questions_bank.NATURE_SCIENCE_QUESTIONS) - 1)]
     elif game_map[character["location"]]["subject"] == subjects.GEOGRAPHY:
-        question = questions_bank.GEOGRAPHY_QUESTIONS[random.randint(0, len(questions_bank.GEOGRAPHY_QUESTIONS))]
+        question = questions_bank.GEOGRAPHY_QUESTIONS[random.randint(0, len(questions_bank.GEOGRAPHY_QUESTIONS) - 1)]
     elif game_map[character["location"]]["subject"] == subjects.COMPUTER_SCIENCE:
-        question = questions_bank.COMPUTER_QUESTIONS[random.randint(0, len(questions_bank.COMPUTER_QUESTIONS))]
+        question = questions_bank.COMPUTER_QUESTIONS[random.randint(0, len(questions_bank.COMPUTER_QUESTIONS) - 1)]
     else:
         question = questions_bank.BOSS_QUESTIONS[0]
 
     return question
+
+
+def format_question(question):
+    letters = [chr(letter) for letter in range(65, 69)]
+    all_answers = [answer for answer in question["incorrect_answers"]]
+    all_answers.insert(random.randint(0, 3), question["correct_answer"])
+    multi_choice = dict(zip(letters, all_answers))
+
+    return multi_choice
 
 
 def start_class(game_map, character):
@@ -32,12 +41,14 @@ def start_class(game_map, character):
         print("{}, you can't start class here".format(character["user_name"]))
     elif game_map[character["location"]]["type"] == map.ROOM_TYPE_CLASS_ROOM:
         question = get_question(game_map, character)
-        # TODO: formatted question
-        return
+        question_instruction = question["question"]
+        formatted_question = format_question(question)
+        return question_instruction, formatted_question
     elif game_map[character["location"]]["type"] == map.ROOM_TYPE_BOSS_ROOM:
-        # TODO: formatted question
-        return get_question(game_map, character)
-
+        question = get_question(game_map, character)
+        question_instruction = question["question"]
+        formatted_question = format_question(question)
+        return question_instruction, formatted_question
 
 
 def is_alive():
@@ -120,6 +131,9 @@ def game():
         elif user_action == 'x':
             # Start the game
             current_question = start_class(game_map, character)
+            print(current_question[0], end="\n")
+            for choice, answer in current_question[1].items():
+                print(" {} : {}".format(choice, answer))
 
         elif user_action == 'i':
             # Print the character information
