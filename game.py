@@ -8,7 +8,11 @@ import questions_bank
 
 
 MAXIMUM_LEVEL = 3
+EXPERIENCE_PER_CLASS = 2
+MINUS_HEALTH = 1
 EXPERIENCE_FOR_LEVEL_UP = 10
+
+LEVEL_UP_INTELLIGENCE_GAIN = 3
 
 USER_INFORMATION_FILE = "user_info.json"
 
@@ -47,19 +51,27 @@ def format_question(question):
 
 
 def start_class(game_map, character):
+    character_location = character["location"]
 
-    if game_map[character["location"]]["type"] != map.ROOM_TYPE_CLASS_ROOM:
+    if game_map[character_location]["type"] != map.ROOM_TYPE_CLASS_ROOM:
         print("{}, you can't start class here".format(character["user_name"]))
         return
 
-    elif game_map[character["location"]]["type"] == map.ROOM_TYPE_CLASS_ROOM:
+    if game_map[character_location]["completed"]:
+        print("No class going on here.")
+        return
+
+    if game_map[character_location]["type"] == map.ROOM_TYPE_BOSS_ROOM:
         question = get_question(game_map, character)
         question_instruction = question["question"]
         formatted_question = format_question(question)
         character["in_question"] = True
         return question_instruction, formatted_question
 
-    elif game_map[character["location"]]["type"] == map.ROOM_TYPE_BOSS_ROOM:
+    if is_class_proceeded_automatically(character, game_map[character_location]["subject_grade"]):
+        print("This time your mastery of the subject captivated the class, "
+              "and you effectively delivered this lesson! Keep trying {}".format(character["user_name"]))
+
         question = get_question(game_map, character)
         question_instruction = question["question"]
         formatted_question = format_question(question)
@@ -67,8 +79,9 @@ def start_class(game_map, character):
         return question_instruction, formatted_question
 
 
-def is_alive():
-    return True
+
+def is_alive(character):
+    return character["health"] > 0
 
 
 def get_target_location(character, user_action):
@@ -115,8 +128,39 @@ def handle_user_action_for_question(game_map, character, current_question, user_
     pass
 
 
+def loose_health(character):
+    print("Health -{}.".format(MINUS_HEALTH))
+    character["health"] -= MINUS_HEALTH
+
+
+def get_character_info(character):
+    return ("\nCurrent character {} info:\n"
+            "  Health        {}/{}\n"
+            "  Level         {}\n"
+            "  Intelligence  {}\n"
+            "  Experience    {}/{}\n"
+            ).format(character["user_name"], ["health"], character["max_health"],
+                     character["level"],
+                     character["intelligence"],
+                     character["experience"], EXPERIENCE_FOR_LEVEL_UP)
+
+
+def check_level_up(character):
+    if character["level"] >= MAXIMUM_LEVEL or character["experience"] < EXPERIENCE_FOR_LEVEL_UP:
+        return False
+
+    character["level"] += character["experience"] // EXPERIENCE_FOR_LEVEL_UP
+    character["experience"] = character["experience"] % EXPERIENCE_FOR_LEVEL_UP
+    character["intelligence"] += LEVEL_UP_INTELLIGENCE_GAIN
+
+    print("You leveled up! Your intelligence +{}.".format(LEVEL_UP_INTELLIGENCE_GAIN))
+    print(get_character_info(character))
+
+
 def execute_glow_up_protocol(character):
-    character["experience"] += 2
+    character["experience"] += EXPERIENCE_PER_CLASS
+    print("Experience +{}".format(EXPERIENCE_PER_CLASS))
+    check_level_up(character)
 
 
 def game():
@@ -126,9 +170,9 @@ def game():
     current_question = None
 
     # Exit game in handle_user_action() when
-    # 1. HP is zero 2. user types 'q' 3. Boss room is completed
+    # 1. health is zero 2. user types 'q' 3. Boss room is completed
     while True:
-        if not is_alive():
+        if not is_alive(character):
             print("Sorry {}, your journey is over. Try next time.".format(character["user_name"]))
             return
 
