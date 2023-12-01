@@ -1,1 +1,1 @@
-[{"user_name": "Shirley", "location": [1, 2], "in_question": false, "level": 1, "experience": 0, "health": 5, "max_health": 5, "intelligence": 3}]
+[{"user_name": "Shirley", "location": [1, 2], "in_question": true, "level": 1, "experience": 0, "health": 5, "max_health": 5, "intelligence": 3}]
