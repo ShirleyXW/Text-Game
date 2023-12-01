@@ -69,15 +69,26 @@ def start_class(game_map, character):
         return question_instruction, formatted_question
 
     if is_class_proceeded_automatically(character, game_map[character_location]["subject_grade"]):
+        character["in_question"] = True
         print("This time your mastery of the subject captivated the class, "
               "and you effectively delivered this lesson! Keep trying {}".format(character["user_name"]))
-
+        execute_glow_up_protocol(character)
+        return None
+    else:
+        print("Regrettably, your understanding of the subject falls short for teaching this class; "
+              "you'll have to take an informed guess on following particular question.\n"
+              "I believe you, {}. Give a try.".format(character["user_name"]))
+        character["in_question"] = True
         question = get_question(game_map, character)
         question_instruction = question["question"]
         formatted_question = format_question(question)
-        character["in_question"] = True
+
         return question_instruction, formatted_question
 
+
+def is_class_proceeded_automatically(character, subject_grade):
+    # the higher "intelligence" is, the higher possibility succeed the class
+    return random.randint(1, subject_grade * 4) <= character["intelligence"]
 
 
 def is_alive(character):
@@ -189,13 +200,16 @@ def game():
         elif user_action == 'x':
             # Start the game
             current_question = start_class(game_map, character)
-            print(current_question[0], end="\n")
-            for choice, answer in current_question[1][0].items():
-                print(" {} : {}".format(choice, answer))
+            if current_question is None:
+                continue
+            else:
+                print(current_question[0], end="\n")
+                for choice, answer in current_question[1][0].items():
+                    print(" {} : {}".format(choice, answer))
 
         elif user_action == 'i':
             # Print the character information
-            pass
+            get_character_info(character)
 
         elif user_action == 'm':
             # Print the map and current location
