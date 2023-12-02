@@ -19,7 +19,7 @@ def get_room_type(game_map, character):
     elif game_map[location]["type"] == ROOM_TYPE_ENTRANCE:
         return "{}, you are standing in front of the school, try exploring!".format(character["user_name"])
     elif game_map[location]["type"] == ROOM_TYPE_RELAX:
-        return ("Alright,{}, in the central garden 🍀, you find a book, reading and relaxing."
+        return ("Alright, {}, in the central garden 🍀, you find a book, reading and relaxing."
                 .format(character["user_name"]))
     elif game_map[location]["type"] == ROOM_TYPE_BOSS_ROOM:
         return "!!! ATTENTION !!! {}, This is your final goal, fight for yourself!".format(character["user_name"])
@@ -85,8 +85,7 @@ def generate_map():
         "type": ROOM_TYPE_ENTRANCE
     }
     game_map[(2, 2)] = {
-        "type": ROOM_TYPE_RELAX,
-        "first_enter": True
+        "type": ROOM_TYPE_RELAX
     }
     game_map[(4, 4)] = {
         "type": ROOM_TYPE_BOSS_ROOM

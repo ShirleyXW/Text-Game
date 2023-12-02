@@ -117,6 +117,23 @@ def get_target_location(character, user_action):
         raise Exception("Invalid action")
 
 
+def read_book_and_increase_intelligence(game_map, character):
+    if not character.get("bonus_intelligence_gain"):
+        print("\n  Education is not merely the imparting of knowledge, but the illumination of minds. \n"
+              "  It's a bridge, constructed with bricks of mutual enlightenment, where the essence is \n"
+              "  not just information but the ignition of curiosity and the cultivation of the power \n"
+              "  of wisdom. The true essence of teaching lies in guiding students to discover their \n"
+              "  own potential, enabling them to traverse unknown realms like explorers. Education is \n"
+              "  not just about imparting facts; it's about igniting the flame of learning within, \n"
+              "  allowing students to thrive and grow amidst the sparks of contemplation.\n\n"
+              "  The book says.\n")
+        character["intelligence"] += LEVEL_UP_INTELLIGENCE_GAIN
+        print("Your intelligence +{}.".format(LEVEL_UP_INTELLIGENCE_GAIN))
+        character["bonus_intelligence_gain"] = True
+    else:
+        print("Seems the magic is gone. The book says.")
+
+
 def move_character(game_map, character, user_action):
     target_location = get_target_location(character, user_action)
     character_level = character["level"]
@@ -130,6 +147,9 @@ def move_character(game_map, character, user_action):
 
     character["location"] = target_location
     map.print_map_and_current_location(game_map, character)
+
+    if game_map[target_location]["type"] == map.ROOM_TYPE_RELAX:
+        read_book_and_increase_intelligence(game_map, character)
 
 
 def handle_user_action_for_question(game_map, character, current_question, user_action):
