@@ -19,8 +19,8 @@ USER_INFORMATION_FILE = "user_info.json"
 
 def get_question(game_map, character):
     if game_map[character["location"]]["subject"] == subjects.SCIENCE:
-        question = questions_bank.NATURE_SCIENCE_QUESTIONS[random.randint(0,
-                                                                          len(questions_bank.NATURE_SCIENCE_QUESTIONS) - 1)]
+        question = questions_bank.NATURE_SCIENCE_QUESTIONS[
+            random.randint(0, len(questions_bank.NATURE_SCIENCE_QUESTIONS) - 1)]
     elif game_map[character["location"]]["subject"] == subjects.GEOGRAPHY:
         question = questions_bank.GEOGRAPHY_QUESTIONS[random.randint(0, len(questions_bank.GEOGRAPHY_QUESTIONS) - 1)]
     elif game_map[character["location"]]["subject"] == subjects.COMPUTER_SCIENCE:
@@ -97,7 +97,7 @@ def start_class(game_map, character):
 
 def is_class_proceeded_automatically(character, subject_grade):
     # the higher "intelligence" is, the higher possibility succeed the class
-    return random.randint(1, subject_grade * 4) <= character["intelligence"]
+    return random.randint(1, subject_grade * 5) <= character["intelligence"]
 
 
 def is_alive(character):
@@ -117,7 +117,7 @@ def get_target_location(character, user_action):
         raise Exception("Invalid action")
 
 
-def read_book_and_increase_intelligence(game_map, character):
+def read_book_and_increase_intelligence(character):
     if not character.get("bonus_intelligence_gain"):
         print("\n  Education is not merely the imparting of knowledge, but the illumination of minds. \n"
               "  It's a bridge, constructed with bricks of mutual enlightenment, where the essence is \n"
@@ -149,7 +149,7 @@ def move_character(game_map, character, user_action):
     map.print_map_and_current_location(game_map, character)
 
     if game_map[target_location]["type"] == map.ROOM_TYPE_RELAX:
-        read_book_and_increase_intelligence(game_map, character)
+        read_book_and_increase_intelligence(character)
 
 
 def handle_user_action_for_question(game_map, character, current_question, user_action):
