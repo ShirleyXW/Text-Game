@@ -9,7 +9,7 @@ import questions_bank
 
 MAXIMUM_LEVEL = 3
 EXPERIENCE_PER_CLASS = 2
-MINUS_HEALTH = 1
+
 EXPERIENCE_FOR_LEVEL_UP = 10
 
 LEVEL_UP_INTELLIGENCE_GAIN = 3
@@ -50,6 +50,12 @@ def format_question(question):
     return multi_choice, correct_answer_letter
 
 
+def print_question(question_instruction, formatted_question):
+    print(question_instruction, end="\n")
+    for choice, answer in formatted_question[0].items():
+        print(" {} : {}".format(choice, answer))
+
+
 def start_class(game_map, character):
     character_location = character["location"]
 
@@ -69,10 +75,11 @@ def start_class(game_map, character):
         return question_instruction, formatted_question
 
     if is_class_proceeded_automatically(character, game_map[character_location]["subject_grade"]):
-        character["in_question"] = True
+        character["in_question"] = False
         print("This time your mastery of the subject captivated the class, "
               "and you effectively delivered this lesson! Keep trying {}".format(character["user_name"]))
-        execute_glow_up_protocol(character)
+        gain_experience(character)
+        game_map[character["location"]]["completed"] = True
         return None
     else:
         print("Regrettably, your understanding of the subject falls short for teaching this class; "
@@ -82,6 +89,8 @@ def start_class(game_map, character):
         question = get_question(game_map, character)
         question_instruction = question["question"]
         formatted_question = format_question(question)
+
+        print_question(question_instruction, formatted_question)
 
         return question_instruction, formatted_question
 
@@ -120,28 +129,41 @@ def move_character(game_map, character, user_action):
         return
 
     character["location"] = target_location
-    map.print_map_and_current_location(game_map,character)
+    map.print_map_and_current_location(game_map, character)
 
 
 def handle_user_action_for_question(game_map, character, current_question, user_action):
 
-    if character["intelligence"] > game_map["subject_grade"]:
-        auto_answer()
-        if auto_answer():
-            print("Correct answer, well done {} !".format(character["user_name"]))
+    if user_action not in ("a", "b", "c", "d"):
+        print("{}, invalid answer. Choose again.".format(character["user_name"]))
+        question = get_question(game_map, character)
+        question_instruction = question["question"]
+        formatted_question = format_question(question)
+        print_question(question_instruction, formatted_question)
+        return
+
+    if user_action == current_question[1][1]:
+        if character["location"] == map.BOSS_LOCATION:
+            print("Correct! You are now a SUPER teacher, {}!".format(character["user_name"]))
+            exit()
+        else:
+            print("Correct! Good job, {}. You've completed the class.".format(character["user_name"]))
             gain_experience(character)
-            execute_glow_up_protocol(character)
-            cross_out_the_room(game_map, character)
-
+            game_map[character["location"]]["completed"] = True
     else:
-        loose_HP(character)
-        print("Wrong answer {}. Keep going.".format(character["user_name"]))
-    pass
+        if character["location"] == map.BOSS_LOCATION:
+            print("Incorrect! {}, you loss extra health!".format(character["user_name"]))
+            loose_health(character, 3)
+        else:
+            print("Incorrect! {}, you failed to complete the class.".format(character["user_name"]))
+            loose_health(character, 1)
+
+    character["in_question"] = False
 
 
-def loose_health(character):
-    print("Health -{}.".format(MINUS_HEALTH))
-    character["health"] -= MINUS_HEALTH
+def loose_health(character, minus_health):
+    print("Health -{}.".format(minus_health))
+    character["health"] -= minus_health
 
 
 def get_character_info(character):
@@ -150,7 +172,7 @@ def get_character_info(character):
             "  Level         {}\n"
             "  Intelligence  {}\n"
             "  Experience    {}/{}\n"
-            ).format(character["user_name"], ["health"], character["max_health"],
+            ).format(character["user_name"], character["health"], character["max_health"],
                      character["level"],
                      character["intelligence"],
                      character["experience"], EXPERIENCE_FOR_LEVEL_UP)
@@ -168,7 +190,7 @@ def check_level_up(character):
     print(get_character_info(character))
 
 
-def execute_glow_up_protocol(character):
+def gain_experience(character):
     character["experience"] += EXPERIENCE_PER_CLASS
     print("Experience +{}".format(EXPERIENCE_PER_CLASS))
     check_level_up(character)
@@ -185,6 +207,7 @@ def game():
     while True:
         if not is_alive(character):
             print("Sorry {}, your journey is over. Try next time.".format(character["user_name"]))
+            sync_users_data.sync_user_info_to_file(character)
             return
 
         user_action = input().lower()
@@ -194,22 +217,17 @@ def game():
         # If character's status is in the class ,then check answer
         if character["in_question"] is True:
             handle_user_action_for_question(game_map, character, current_question, user_action)
+            sync_users_data.sync_user_info_to_file(character)
+            continue
 
         if user_action in ['n', 's', 'w', 'e']:
             move_character(game_map, character, user_action)
         elif user_action == 'x':
             # Start the game
             current_question = start_class(game_map, character)
-            if current_question is None:
-                continue
-            else:
-                print(current_question[0], end="\n")
-                for choice, answer in current_question[1][0].items():
-                    print(" {} : {}".format(choice, answer))
-
         elif user_action == 'i':
             # Print the character information
-            get_character_info(character)
+            print(get_character_info(character))
 
         elif user_action == 'm':
             # Print the map and current location
@@ -218,6 +236,7 @@ def game():
         elif user_action == 'q':
             # Exit the game
             print("Bye! {}".format(character["user_name"]))
+            sync_users_data.sync_user_info_to_file(character)
             return
         else:
             print("Invalid option, {}.".format(character["user_name"]))

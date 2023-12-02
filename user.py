@@ -40,4 +40,7 @@ def load_or_create_character():
         character = create_new_character(user_name)
         sync_users_data.sync_user_info_to_file(character)
 
+    # Clear in class state when restarting
+    character["in_question"] = False
+
     return character
