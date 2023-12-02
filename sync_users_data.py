@@ -28,7 +28,11 @@ def load_user_info_from_file():
 
     # with open()
     with open(USER_INFORMATION_FILE, "r") as file_object:
-        users = json.load(file_object)
+        content = file_object.read()
+        if len(content) == 0:
+            return []
+        else:
+            users = json.loads(content)
 
     # Convert location from list to tuple
     for user in users:

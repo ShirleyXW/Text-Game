@@ -18,12 +18,12 @@ USER_INFORMATION_FILE = "user_info.json"
 
 
 def get_question(game_map, character):
-    if game_map[character["location"]]["subject"] == subjects.SCIENCE:
+    if game_map[character["location"]].get("subject") == subjects.SCIENCE:
         question = questions_bank.NATURE_SCIENCE_QUESTIONS[
             random.randint(0, len(questions_bank.NATURE_SCIENCE_QUESTIONS) - 1)]
-    elif game_map[character["location"]]["subject"] == subjects.GEOGRAPHY:
+    elif game_map[character["location"]].get("subject") == subjects.GEOGRAPHY:
         question = questions_bank.GEOGRAPHY_QUESTIONS[random.randint(0, len(questions_bank.GEOGRAPHY_QUESTIONS) - 1)]
-    elif game_map[character["location"]]["subject"] == subjects.COMPUTER_SCIENCE:
+    elif game_map[character["location"]].get("subject") == subjects.COMPUTER_SCIENCE:
         question = questions_bank.COMPUTER_QUESTIONS[random.randint(0, len(questions_bank.COMPUTER_QUESTIONS) - 1)]
     else:
         question = questions_bank.BOSS_QUESTIONS[0]
@@ -59,6 +59,14 @@ def print_question(question_instruction, formatted_question):
 def start_class(game_map, character):
     character_location = character["location"]
 
+    if game_map[character_location]["type"] == map.ROOM_TYPE_BOSS_ROOM:
+        question = get_question(game_map, character)
+        question_instruction = question["question"]
+        formatted_question = format_question(question)
+        character["in_question"] = True
+        print_question(question_instruction, formatted_question)
+        return question_instruction, formatted_question
+
     if game_map[character_location]["type"] != map.ROOM_TYPE_CLASS_ROOM:
         print("{}, you can't start class here".format(character["user_name"]))
         return
@@ -66,13 +74,6 @@ def start_class(game_map, character):
     if game_map[character_location]["completed"]:
         print("No class going on here.")
         return
-
-    if game_map[character_location]["type"] == map.ROOM_TYPE_BOSS_ROOM:
-        question = get_question(game_map, character)
-        question_instruction = question["question"]
-        formatted_question = format_question(question)
-        character["in_question"] = True
-        return question_instruction, formatted_question
 
     if is_class_proceeded_automatically(character, game_map[character_location]["subject_grade"]):
         character["in_question"] = False
