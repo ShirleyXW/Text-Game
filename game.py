@@ -42,22 +42,11 @@ def format_question(question):
     letters = []
     for element in range(65, 69):
         letters.append(chr(next(letter)))
-
     all_answers = [answer for answer in question["incorrect_answers"]]
-
     insert_index = random.randint(0, 3)
-    correct_answer_letter = ''
-    if insert_index == 0:
-        correct_answer_letter = "a"
-    elif insert_index == 1:
-        correct_answer_letter = "b"
-    elif insert_index == 2:
-        correct_answer_letter = "c"
-    elif insert_index == 3:
-        correct_answer_letter = "d"
+    correct_answer_letter = chr(97 + insert_index)
     all_answers.insert(insert_index, question["correct_answer"])
     multi_choice = dict(zip(letters, all_answers))
-
     return multi_choice, correct_answer_letter
 
 
@@ -67,9 +56,16 @@ def print_question(question_instruction, formatted_question):
         print(" {} : {}".format(choice, answer))
 
 
+def process_automatically(character, game_map):
+    character["in_question"] = False
+    print("This time your mastery of the subject captivated the class, "
+          "and you effectively delivered this lesson! Keep trying {}".format(character["user_name"]))
+    gain_experience(character)
+    game_map[character["location"]]["completed"] = True
+
+
 def start_class(game_map, character):
     character_location = character["location"]
-
     if game_map[character_location]["type"] == map.ROOM_TYPE_BOSS_ROOM:
         question = get_question(game_map, character)
         question_instruction = question["question"]
@@ -77,21 +73,14 @@ def start_class(game_map, character):
         character["in_question"] = True
         print_question(question_instruction, formatted_question)
         return question_instruction, formatted_question
-
     if game_map[character_location]["type"] != map.ROOM_TYPE_CLASS_ROOM:
         print("{}, you can't start class here".format(character["user_name"]))
         return
-
     if game_map[character_location]["completed"]:
         print("No class going on here.")
         return
-
     if is_class_proceeded_automatically(character, game_map[character_location]["subject_grade"]):
-        character["in_question"] = False
-        print("This time your mastery of the subject captivated the class, "
-              "and you effectively delivered this lesson! Keep trying {}".format(character["user_name"]))
-        gain_experience(character)
-        game_map[character["location"]]["completed"] = True
+        process_automatically(character, game_map)
         return None
     else:
         print("Regrettably, your understanding of the subject falls short for teaching this class; "
@@ -101,9 +90,7 @@ def start_class(game_map, character):
         question = get_question(game_map, character)
         question_instruction = question["question"]
         formatted_question = format_question(question)
-
         print_question(question_instruction, formatted_question)
-
         return question_instruction, formatted_question
 
 
