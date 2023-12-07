@@ -690,12 +690,13 @@ GEOGRAPHY_QUESTIONS = (
 
 BOSS_QUESTIONS = (
     {
-        "question": "What is the official language of Costa Rica?",
-        "correct_answer": "Spanish",
+        "question": "Hello!!! The last question is"
+                    " \"Know your student~~~\"\n\tPlease find out who is the author creates this beautiful game?",
+        "correct_answer": "Xinli Wang",
         "incorrect_answers": [
-            "English",
-            "Portuguese",
-            "Creole"
+            "Shirley Wen",
+            "Irene Wang",
+            "Xinli Shirley"
         ]
     },
 )
