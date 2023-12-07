@@ -39,7 +39,8 @@ class Test(TestCase):
             "b"
         )
         question = {
-            "question": "Which of the following Arab countries does NOT have a flag containing only Pan-Arab colours?",
+            "question": "Which of the following Arab countries does NOT have a flag containing only"
+                        " Pan-Arab colours?",
             "correct_answer": "Qatar",
             "incorrect_answers": [
                 "Kuwait",
