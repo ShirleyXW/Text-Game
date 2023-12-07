@@ -5,7 +5,7 @@ import map
 import subjects
 import sync_users_data
 import questions_bank
-
+import itertools
 
 MAXIMUM_LEVEL = 3
 EXPERIENCE_PER_CLASS = 2
@@ -18,6 +18,12 @@ USER_INFORMATION_FILE = "user_info.json"
 
 
 def get_question(game_map, character):
+    """
+
+    :param game_map:
+    :param character:
+    :return:
+    """
     if game_map[character["location"]].get("subject") == subjects.SCIENCE:
         question = questions_bank.NATURE_SCIENCE_QUESTIONS[
             random.randint(0, len(questions_bank.NATURE_SCIENCE_QUESTIONS) - 1)]
@@ -32,8 +38,13 @@ def get_question(game_map, character):
 
 
 def format_question(question):
-    letters = [chr(letter) for letter in range(65, 69)]
+    letter = itertools.count(65)
+    letters = []
+    for element in range(65, 69):
+        letters.append(chr(next(letter)))
+
     all_answers = [answer for answer in question["incorrect_answers"]]
+
     insert_index = random.randint(0, 3)
     correct_answer_letter = ''
     if insert_index == 0:
@@ -132,7 +143,7 @@ def read_book_and_increase_intelligence(character):
         print("Your intelligence +{}.".format(LEVEL_UP_INTELLIGENCE_GAIN))
         character["bonus_intelligence_gain"] = True
     else:
-        print("Seems the magic is gone. The book says.")
+        print("Seems the magic is gone. The book says.But reading is a not bad thing, {}".format(character["user_name"]))
 
 
 def move_character(game_map, character, user_action):
