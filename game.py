@@ -38,6 +38,11 @@ def get_question(game_map, character):
 
 
 def format_question(question):
+    """
+
+    :param question:
+    :return:
+    """
     letter = itertools.count(65)
     letters = []
     for element in range(65, 69):
@@ -51,7 +56,7 @@ def format_question(question):
 
 
 def print_question(question_instruction, formatted_question):
-    print(question_instruction, end="\n")
+    print(question_instruction)
     for choice, answer in formatted_question[0].items():
         print(" {} : {}".format(choice, answer))
 
