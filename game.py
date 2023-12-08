@@ -160,10 +160,7 @@ def handle_user_action_for_question(game_map, character, current_question, user_
 
     if user_action not in ("a", "b", "c", "d"):
         print("{}, invalid answer. Choose again.".format(character["user_name"]))
-        question = get_question(game_map, character)
-        question_instruction = question["question"]
-        formatted_question = format_question(question)
-        print_question(question_instruction, formatted_question)
+        print_question(current_question[0], current_question[1])
         return
 
     if user_action == current_question[1][1]:
