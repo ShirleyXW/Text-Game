@@ -61,20 +61,22 @@ def get_room_title_and_grade(game_map, row, column):
     :postcondition: Returns a string representing the room title and grade based on the provided row and column
     :return: The room title as a string
 
-    >>> test_map = {(row_id, column_id):
-    ...                 {'type': ROOM_TYPE_CLASS_ROOM,
-    ...                  'subject': ('Science', 'Sci'),
-    ...                  'subject_grade': 2,
-    ...                   'completed': False
-    ...                 } for row_id in range(0, MAP_ROW_NUMBER) for column_id in range(0, MAP_COLUMN_NUMBER)}
+   >>> test_map = dict()
+    >>> for test_row in range(0, MAP_ROW_NUMBER):
+    ...     for test_column in range(0, MAP_COLUMN_NUMBER):
+    ...         test_map[(test_row, test_column)] = {'type': ROOM_TYPE_CLASS_ROOM,
+    ...              'subject': ('Science', 'Sci'),
+    ...              'subject_grade': 2,
+    ...              'completed': False}
     >>> get_room_title_and_grade(test_map, 1, 1)
     'Sci 2 '
-    >>> test_map = {(row_id, column_id):
-    ...                 {'type': ROOM_TYPE_CLASS_ROOM,
-    ...                  'subject': ('Geography', 'Geo'),
-    ...                  'subject_grade': 3,
-    ...                   'completed': False
-    ...                 } for row_id in range(0, MAP_ROW_NUMBER) for column_id in range(0, MAP_COLUMN_NUMBER)}
+    >>> test_map = dict()
+    >>> for test_row in range(0, MAP_ROW_NUMBER):
+    ...     for test_column in range(0, MAP_COLUMN_NUMBER):
+    ...         test_map[(test_row, test_column)] = {'type': ROOM_TYPE_CLASS_ROOM,
+    ...              'subject': ('Geography', 'Geo'),
+    ...              'subject_grade': 3,
+    ...              'completed': False}
     >>> get_room_title_and_grade(test_map, 2, 3)
     'Geo 3 '
     """
@@ -102,12 +104,13 @@ def print_map(game_map, character):
     :postcondition: draw the map with the character's current location highlighted
     :return: None
 
-    >>> test_map = {(row_id, column_id):
-    ...            {'type': ROOM_TYPE_CLASS_ROOM,
+    >>> test_map = dict()
+    >>> for test_row in range(0, MAP_ROW_NUMBER):
+    ...     for test_column in range(0, MAP_COLUMN_NUMBER):
+    ...         test_map[(test_row, test_column)] = {'type': ROOM_TYPE_CLASS_ROOM,
     ...              'subject': ('Science', 'Sci'),
     ...              'subject_grade': 2,
-    ...              'completed': False
-    ...             } for row_id in range(0, MAP_ROW_NUMBER) for column_id in range(0, MAP_COLUMN_NUMBER)}
+    ...              'completed': False}
     >>> test_character = {"location": (2, 2), "user_name": "Bob"}
     >>> print_map(test_map, test_character)
     ┌╌╌╌╌╌╌╌╌┐┌╌╌╌╌╌╌╌╌┐┌╌╌╌╌╌╌╌╌┐┌╌╌╌╌╌╌╌╌┐┌╌╌╌╌╌╌╌╌┐
@@ -130,12 +133,13 @@ def print_map(game_map, character):
     ┆ Sci 2  ┆┆ Sci 2  ┆┆ Sci 2  ┆┆ Sci 2  ┆┆ Sci 2  ┆
     ┆        ┆┆        ┆┆        ┆┆        ┆┆        ┆
     └╌╌╌╌╌╌╌╌┘└╌╌╌╌╌╌╌╌┘└╌╌╌╌╌╌╌╌┘└╌╌╌╌╌╌╌╌┘└╌╌╌╌╌╌╌╌┘
-    >>> test_map = {(row_id, column_id):
-    ...            {'type': ROOM_TYPE_CLASS_ROOM,
+   >>> test_map = dict()
+    >>> for test_row in range(0, MAP_ROW_NUMBER):
+    ...     for test_column in range(0, MAP_COLUMN_NUMBER):
+    ...         test_map[(test_row, test_column)] = {'type': ROOM_TYPE_CLASS_ROOM,
     ...              'subject': ('Geography', 'Geo'),
     ...              'subject_grade': 3,
-    ...              'completed': False
-    ...             } for row_id in range(0, MAP_ROW_NUMBER) for column_id in range(0, MAP_COLUMN_NUMBER)}
+    ...              'completed': False}
     >>> test_character = {"location": (3, 4), "user_name": "Bob"}
     >>> print_map(test_map, test_character)
     ┌╌╌╌╌╌╌╌╌┐┌╌╌╌╌╌╌╌╌┐┌╌╌╌╌╌╌╌╌┐┌╌╌╌╌╌╌╌╌┐┌╌╌╌╌╌╌╌╌┐
@@ -194,12 +198,13 @@ def print_map_and_current_location(game_map, character):
                     and details of the current location are printed.
     :return: None
 
-    >>> test_map = {(row_id, column_id):
-    ...                 {'type': ROOM_TYPE_CLASS_ROOM,
-    ...                  'subject': ('Science', 'Sci'),
-    ...                  'subject_grade': 2,
-    ...                   'completed': False
-    ...                 } for row_id in range(0, MAP_ROW_NUMBER) for column_id in range(0, MAP_COLUMN_NUMBER)}
+     >>> test_map = dict()
+    >>> for test_row in range(0, MAP_ROW_NUMBER):
+    ...     for test_column in range(0, MAP_COLUMN_NUMBER):
+    ...         test_map[(test_row, test_column)] = {'type': ROOM_TYPE_CLASS_ROOM,
+    ...              'subject': ('Science', 'Sci'),
+    ...              'subject_grade': 2,
+    ...              'completed': False}
     >>> test_character = {"location": (2, 2), "user_name": "Bob"}
     >>> print_map_and_current_location(test_map, test_character)
     ┌╌╌╌╌╌╌╌╌┐┌╌╌╌╌╌╌╌╌┐┌╌╌╌╌╌╌╌╌┐┌╌╌╌╌╌╌╌╌┐┌╌╌╌╌╌╌╌╌┐
@@ -223,12 +228,13 @@ def print_map_and_current_location(game_map, character):
     ┆        ┆┆        ┆┆        ┆┆        ┆┆        ┆
     └╌╌╌╌╌╌╌╌┘└╌╌╌╌╌╌╌╌┘└╌╌╌╌╌╌╌╌┘└╌╌╌╌╌╌╌╌┘└╌╌╌╌╌╌╌╌┘
     You are now in Grade 2 Science class. You can start the class (enter 'x') or walk away.
-    >>> test_map = {(row_id, column_id):
-    ...                 {'type': ROOM_TYPE_CLASS_ROOM,
-    ...                  'subject': ('Geography', 'Geo'),
-    ...                  'subject_grade': 3,
-    ...                   'completed': False
-    ...                 } for row_id in range(0, MAP_ROW_NUMBER) for column_id in range(0, MAP_COLUMN_NUMBER)}
+   >>> test_map = dict()
+    >>> for test_row in range(0, MAP_ROW_NUMBER):
+    ...     for test_column in range(0, MAP_COLUMN_NUMBER):
+    ...         test_map[(test_row, test_column)] = {'type': ROOM_TYPE_CLASS_ROOM,
+    ...              'subject': ('Geography', 'Geo'),
+    ...              'subject_grade': 3,
+    ...              'completed': False}
     >>> test_character = {"location": (1, 2), "user_name": "Bob"}
     >>> print_map_and_current_location(test_map, test_character)
     ┌╌╌╌╌╌╌╌╌┐┌╌╌╌╌╌╌╌╌┐┌╌╌╌╌╌╌╌╌┐┌╌╌╌╌╌╌╌╌┐┌╌╌╌╌╌╌╌╌┐
