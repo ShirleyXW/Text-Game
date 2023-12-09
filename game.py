@@ -361,11 +361,11 @@ def move_character(game_map, character, user_action):
     target_location = get_target_location(character, user_action)
     character_level = character["level"]
     if target_location not in game_map:
-        print("You can't go that way")
+        print("You can't go that way, {}.".format(character["user_name"]))
         return
 
     if target_location == map.BOSS_LOCATION and character_level < MAXIMUM_LEVEL:
-        print("{} can't go there. Level up to 3, then give a try.".format(character["user_name"]))
+        print("{}, you can't go there. Level up to 3, then give a try.".format(character["user_name"]))
         return
 
     character["location"] = target_location
