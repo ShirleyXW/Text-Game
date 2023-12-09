@@ -34,7 +34,7 @@ def get_room_type(game_map, character):
         'Alright, Bob, in the central garden 🍀, you find a book, reading and relaxing.'
     """
     location = character["location"]
-    if game_map[location]["type"] == ROOM_TYPE_CLASS_ROOM:
+    if game_map[location]["type"] == ROOM_TYPE_CLASSROOM:
         return ("You are now in Grade {} {} class. You can start the class (enter 'x') or walk away."
                 .format(game_map[location]["subject_grade"], game_map[location]["subject"][0]))
     elif game_map[location]["type"] == ROOM_TYPE_ENTRANCE:
@@ -64,7 +64,7 @@ def get_room_title_and_grade(game_map, row, column):
    >>> test_map = dict()
     >>> for test_row in range(0, MAP_ROW_NUMBER):
     ...     for test_column in range(0, MAP_COLUMN_NUMBER):
-    ...         test_map[(test_row, test_column)] = {'type': ROOM_TYPE_CLASS_ROOM,
+    ...         test_map[(test_row, test_column)] = {'type': ROOM_TYPE_CLASSROOM,
     ...              'subject': ('Science', 'Sci'),
     ...              'subject_grade': 2,
     ...              'completed': False}
@@ -73,14 +73,14 @@ def get_room_title_and_grade(game_map, row, column):
     >>> test_map = dict()
     >>> for test_row in range(0, MAP_ROW_NUMBER):
     ...     for test_column in range(0, MAP_COLUMN_NUMBER):
-    ...         test_map[(test_row, test_column)] = {'type': ROOM_TYPE_CLASS_ROOM,
+    ...         test_map[(test_row, test_column)] = {'type': ROOM_TYPE_CLASSROOM,
     ...              'subject': ('Geography', 'Geo'),
     ...              'subject_grade': 3,
     ...              'completed': False}
     >>> get_room_title_and_grade(test_map, 2, 3)
     'Geo 3 '
     """
-    if game_map[(row, column)]["type"] == ROOM_TYPE_CLASS_ROOM:
+    if game_map[(row, column)]["type"] == ROOM_TYPE_CLASSROOM:
         room_title = "{} {} ".format(game_map[(row, column)]["subject"][1], game_map[(row, column)]["subject_grade"])
         return room_title
     elif game_map[(row, column)]["type"] == ROOM_TYPE_ENTRANCE:
@@ -107,7 +107,7 @@ def print_map(game_map, character):
     >>> test_map = dict()
     >>> for test_row in range(0, MAP_ROW_NUMBER):
     ...     for test_column in range(0, MAP_COLUMN_NUMBER):
-    ...         test_map[(test_row, test_column)] = {'type': ROOM_TYPE_CLASS_ROOM,
+    ...         test_map[(test_row, test_column)] = {'type': ROOM_TYPE_CLASSROOM,
     ...              'subject': ('Science', 'Sci'),
     ...              'subject_grade': 2,
     ...              'completed': False}
@@ -136,7 +136,7 @@ def print_map(game_map, character):
    >>> test_map = dict()
     >>> for test_row in range(0, MAP_ROW_NUMBER):
     ...     for test_column in range(0, MAP_COLUMN_NUMBER):
-    ...         test_map[(test_row, test_column)] = {'type': ROOM_TYPE_CLASS_ROOM,
+    ...         test_map[(test_row, test_column)] = {'type': ROOM_TYPE_CLASSROOM,
     ...              'subject': ('Geography', 'Geo'),
     ...              'subject_grade': 3,
     ...              'completed': False}
@@ -201,7 +201,7 @@ def print_map_and_current_location(game_map, character):
      >>> test_map = dict()
     >>> for test_row in range(0, MAP_ROW_NUMBER):
     ...     for test_column in range(0, MAP_COLUMN_NUMBER):
-    ...         test_map[(test_row, test_column)] = {'type': ROOM_TYPE_CLASS_ROOM,
+    ...         test_map[(test_row, test_column)] = {'type': ROOM_TYPE_CLASSROOM,
     ...              'subject': ('Science', 'Sci'),
     ...              'subject_grade': 2,
     ...              'completed': False}
@@ -231,7 +231,7 @@ def print_map_and_current_location(game_map, character):
    >>> test_map = dict()
     >>> for test_row in range(0, MAP_ROW_NUMBER):
     ...     for test_column in range(0, MAP_COLUMN_NUMBER):
-    ...         test_map[(test_row, test_column)] = {'type': ROOM_TYPE_CLASS_ROOM,
+    ...         test_map[(test_row, test_column)] = {'type': ROOM_TYPE_CLASSROOM,
     ...              'subject': ('Geography', 'Geo'),
     ...              'subject_grade': 3,
     ...              'completed': False}
@@ -282,7 +282,7 @@ def generate_map():
     """
     game_map = {
         (row, column): {
-            "type": ROOM_TYPE_CLASS_ROOM,
+            "type": ROOM_TYPE_CLASSROOM,
             "subject": subjects.subjects(),
             "subject_grade": subjects.subject_grades(row, column),
             "completed": False
