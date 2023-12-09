@@ -83,4 +83,3 @@ def load_user_info_from_file():
     for user in users:
         user["location"] = tuple(user["location"])
     return users
-
