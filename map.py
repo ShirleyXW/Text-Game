@@ -173,7 +173,7 @@ def print_map(game_map, character):
             if character["location"] == (row, column):
                 line_1 += "╔════════╗"
                 line_2 += "║ {} ║".format(get_room_title_and_grade(game_map, row, column))
-                line_3 += "║ {}║".format("⎝(◕_◕)⎠")
+                line_3 += "║ (●v●)/ ║"
                 line_4 += "╚════════╝"
             else:
                 line_1 += "┌╌╌╌╌╌╌╌╌┐"
