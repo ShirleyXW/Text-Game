@@ -196,7 +196,7 @@ def start_class(game_map, character):
         print("{}, you can't start class here".format(character["user_name"]))
         return
     if game_map[character_location]["completed"]:
-        print("No class going on here.")
+        print("The class had been completed.")
         return
     if is_class_proceeded_automatically(character, game_map[character_location]["subject_grade"]):
         process_automatically(character, game_map)
