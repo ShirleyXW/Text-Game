@@ -1,5 +1,5 @@
 from unittest import TestCase
-from map import get_room_title_and_grade, generate_map, ROOM_TYPE_CLASS_ROOM
+from map import get_room_title_and_grade, generate_map, ROOM_TYPE_CLASSROOM
 from subjects import SUBJECTS
 
 
@@ -8,7 +8,7 @@ class Test(TestCase):
         test_map = generate_map()
         row = 0
         column = 0
-        expected = "\t🚪\t"
+        expected = "░GATE░"
         actual = get_room_title_and_grade(test_map, row, column)
         self.assertEqual(expected, actual)
 
@@ -16,12 +16,12 @@ class Test(TestCase):
         test_map = generate_map()
         row = 4
         column = 4
-        expected = " !😈!\t"
+        expected = "░BOSS░"
         actual = get_room_title_and_grade(test_map, row, column)
         self.assertEqual(expected, actual)
 
     def test_room_title_Sci_2(self):
-        test_map = {(2, 1): {"type": ROOM_TYPE_CLASS_ROOM, "subject": SUBJECTS[0], "subject_grade": 2}}
+        test_map = {(2, 1): {"type": ROOM_TYPE_CLASSROOM, "subject": SUBJECTS[0], "subject_grade": 2}}
         row = 2
         column = 1
         expected = "Sci 2 "
@@ -29,7 +29,7 @@ class Test(TestCase):
         self.assertEqual(expected, actual)
 
     def test_room_title_Geo_2(self):
-        test_map = {(3, 1): {"type": ROOM_TYPE_CLASS_ROOM, "subject": SUBJECTS[1], "subject_grade": 2}}
+        test_map = {(3, 1): {"type": ROOM_TYPE_CLASSROOM, "subject": SUBJECTS[1], "subject_grade": 2}}
         row = 3
         column = 1
         expected = "Geo 2 "
@@ -37,7 +37,7 @@ class Test(TestCase):
         self.assertEqual(expected, actual)
 
     def test_room_title_Com_3(self):
-        test_map = {(3, 2): {"type": ROOM_TYPE_CLASS_ROOM, "subject": SUBJECTS[2], "subject_grade": 3}}
+        test_map = {(3, 2): {"type": ROOM_TYPE_CLASSROOM, "subject": SUBJECTS[2], "subject_grade": 3}}
         row = 3
         column = 2
         expected = "C&S 3 "
