@@ -86,7 +86,7 @@ class Test(TestCase):
 
         question = {
             "question": "Hello!!! The last question is"
-                        " \"Know your student~~~\"\n\tPlease find out who is the author creates this beautiful game?",
+                        " \"Know your student~\"\n\nPlease find out who is the author creates this beautiful game?",
             "correct_answer": "Xinli Wang",
             "incorrect_answers": [
                 "Shirley Wen",
