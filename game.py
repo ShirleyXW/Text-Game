@@ -353,10 +353,10 @@ def move_character(game_map, character, user_action):
     >>> test_map = map.generate_map()
     >>> test_character = {"user_name": "Alice", "location": (0, 0), "level": 2}
     >>> move_character(test_map, test_character, "n")
-    You can't go that way
+    You can't go that way, Alice.
     >>> test_character = {"user_name": "Bob", "location": (4, 3), "level": 2}
     >>> move_character(test_map, test_character, "e")
-    Bob can't go there. Level up to 3, then give a try.
+    Bob, you can't go there. Level up to 3, then give a try.
     """
     target_location = get_target_location(character, user_action)
     character_level = character["level"]
