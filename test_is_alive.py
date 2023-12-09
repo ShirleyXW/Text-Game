@@ -12,4 +12,3 @@ class Test(TestCase):
         actual = is_alive({"health": 0, "user_name": "Bob"})
         expected = False
         self.assertEqual(expected, actual)
-
