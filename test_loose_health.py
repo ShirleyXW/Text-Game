@@ -13,6 +13,10 @@ class Test(TestCase):
 
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_loose_health_minus_1(self, _):
-        loose_health({"user_name": "Alice", "location": (1, 1), "in_question": True, "health": 10}, 1)
+        test_character = {"user_name": "Alice", "location": (1, 1), "in_question": True, "health": 10}
+        loose_health(test_character, 1)
         expected = "Health -1.\n"
+        expected_health = 9
+        actual_health = test_character["health"]
         self.assertEqual(expected, _.getvalue())
+        self.assertEqual(expected_health, actual_health)
