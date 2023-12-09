@@ -192,7 +192,7 @@ def start_class(game_map, character):
         character["in_question"] = True
         print_question(question_instruction, formatted_question)
         return question_instruction, formatted_question
-    if game_map[character_location]["type"] != map.ROOM_TYPE_CLASS_ROOM:
+    if game_map[character_location]["type"] != map.ROOM_TYPE_CLASSROOM:
         print("{}, you can't start class here".format(character["user_name"]))
         return
     if game_map[character_location]["completed"]:
