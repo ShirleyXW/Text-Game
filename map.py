@@ -84,11 +84,11 @@ def get_room_title_and_grade(game_map, row, column):
         room_title = "{} {} ".format(game_map[(row, column)]["subject"][1], game_map[(row, column)]["subject_grade"])
         return room_title
     elif game_map[(row, column)]["type"] == ROOM_TYPE_ENTRANCE:
-        return "\t🚪\t"
+        return "░GATE░"
     elif game_map[(row, column)]["type"] == ROOM_TYPE_RELAX:
-        return "\t🍀\t"
+        return "░TREE░"
     elif game_map[(row, column)]["type"] == ROOM_TYPE_BOSS_ROOM:
-        return " !😈!\t"
+        return "░BOSS░"
     else:
         return ""
 
