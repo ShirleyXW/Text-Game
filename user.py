@@ -58,9 +58,9 @@ def create_new_character(user_name):
     :return: a dictionary representing a new character with default attributes
 
     >>> create_new_character("Alice")
-    {'user_name': 'Alice', 'location': (0, 0), 'in_question': False, 'level': 1, 'experience': 0, 'health': 5, 'max_health': 5, 'intelligence': 3}
+    {'user_name': 'Alice', 'location': (0, 0), 'in_question': False, 'level': 1, 'experience': 0, 'health': 5, 'max_health': 5, 'intelligence': 1}
     >>> create_new_character("Bob")
-    {'user_name': 'Bob', 'location': (0, 0), 'in_question': False, 'level': 1, 'experience': 0, 'health': 5, 'max_health': 5, 'intelligence': 3}
+    {'user_name': 'Bob', 'location': (0, 0), 'in_question': False, 'level': 1, 'experience': 0, 'health': 5, 'max_health': 5, 'intelligence': 1}
     """
     return {
         "user_name": user_name,
@@ -70,7 +70,7 @@ def create_new_character(user_name):
         "experience": 0,
         "health": 5,
         "max_health": 5,
-        "intelligence": 3
+        "intelligence": 1
     }
 
 
