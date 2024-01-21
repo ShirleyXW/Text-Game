@@ -1,40 +1,3 @@
-# COMP-1510-202330-Lab-07
-
-Every program needs a README.md
-
-This is written in markdown. Read about markdown here: [markdowncheatsheet](https://www.markdownguide.org/cheat-sheet/)
-
-## Your name:
-
-Xinli Wang
-
-## Your student number:
-
-A01358184
-
-## Your GitHub username:
-
-ShirleyXW
-
-## Any important comments you'd like to make about your work:
-
-Element required show up(only one or two of each element were selected to fill in the following table  ):
-
-| Element name             | Line                       |
-|--------------------------|----------------------------|
-| Save player data         | sync_users_data.py         |
-| List Comprehension       | game.py 91                 |
-| Dictionary Comprehension | map.py 283                 |
-| if_statements            | game.py 188, 274, 317, etc |
-| while_loop               | game.py 642                |
-| for_loop                 | game.py 89                 |
-| for_loop                 | map.py 167                 |
-| membership               | game.py 363                |
-| range                    | map.py 167                 |
-| itertools.count()        | game.py 87                 |
-| random                   | game.py 92                 |
-
-
 ## Game Description:
 
 ***Welcome to the Adventure Classroom: The Quest for Super Teaching!***
@@ -104,3 +67,21 @@ Good luck on your quest for Super Teaching!
 
 Notes:
 - Additional bonus on central garden `location:(2,2)` when gamer first visits.
+
+### Element required show up(only one or two of each element were selected to fill in the following table  ):
+
+| Element name             | Line                       |
+|--------------------------|----------------------------|
+| Save player data         | sync_users_data.py         |
+| List Comprehension       | game.py 91                 |
+| Dictionary Comprehension | map.py 283                 |
+| if_statements            | game.py 188, 274, 317, etc |
+| while_loop               | game.py 642                |
+| for_loop                 | game.py 89                 |
+| for_loop                 | map.py 167                 |
+| membership               | game.py 363                |
+| range                    | map.py 167                 |
+| itertools.count()        | game.py 87                 |
+| random                   | game.py 92                 |
+
+
